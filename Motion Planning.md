@@ -107,7 +107,7 @@ Configuration Space
 
 * Dijkstra: push the minimum value node of cost function $g(x)$. 
 
-  ![image-20200716155038417](../../../../../WMY/Typora/All File Picture/image-20200716155038417.png)
+  ![image-20200716155038417](./Pictures/image-20200716155038417.png)
 
 * A*: Dijkstra with a Heuristic $f(n)=g(n)+ε×h(n)$
 
@@ -151,13 +151,13 @@ Configuration Space
 
   > if the neighbor can be reached from father node with smaller or equal cost, then the neighbor doesn't need to be reached from son node. 
 
-  <img src="../../../../../WMY/Typora/All File Picture/image-20200716164026582.png" alt="image-20200716164026582" style="zoom:50%;" />
+  <img src="./Pictures/image-20200716164026582.png" alt="image-20200716164026582" style="zoom:50%;" />
 
   So in the image, only white node should be considered in the search flow.
 
 * Jumping Rule
 
-  ![image-20200716164543437](../../../../../WMY/Typora/All File Picture/image-20200716164543437.png)
+  ![image-20200716164543437](./Pictures/image-20200716164543437.png)
 
   one jump, only the node who can find force neighbor in his jumping can be added into the open list. By the mean, the special nodes are all nodes in eight directions.
 
@@ -197,13 +197,13 @@ Configuration Space
   * Different in the connections about the tree.
   * RRT like a tree with random growing edges.
 
-![image-20200717095048773](../../../../../WMY/Typora/All File Picture/image-20200717095048773.png)
+![image-20200717095048773](./Pictures/image-20200717095048773.png)
 
 * Improving efficiency
   * Change sampling methods, let point sampled in the empty area
   * KD-Tree: a effective date structure to search the nearest point
   
-  ![image-20200717095523798](../../../../../WMY/Typora/All File Picture/image-20200717095523798.png)
+  ![image-20200717095523798](./Pictures/image-20200717095523798.png)
   
   * Bidirectional RRT / RRT Connect
     * grow a tree from both the start point and the goal point
@@ -213,14 +213,14 @@ Configuration Space
 
 * RRT*
 
-  ![image-20200717095444370](../../../../../WMY/Typora/All File Picture/image-20200717095444370.png)
+  ![image-20200717095444370](./Pictures/image-20200717095444370.png)
 
   * Find the minimum cost from start to current node as the father node, not the nearest node.
   * while find the path, it won't stop.
 
 * Kinodynamic-RRT*
 
-  ![image-20200717095904483](../../../../../WMY/Typora/All File Picture/image-20200717095904483.png)
+  ![image-20200717095904483](./Pictures/image-20200717095904483.png)
 
   * change steer function to fit with motion or other constraints in robot navigation
 
@@ -232,7 +232,7 @@ Configuration Space
 
 * [Informed RRT*](https://ieeexplore.ieee.org/document/6942976)
 
-  ![image-20200717100612568](../../../../../WMY/Typora/All File Picture/image-20200717100612568.png)
+  ![image-20200717100612568](./Pictures/image-20200717100612568.png)
 
 * [Cross-entropy motion planning](http://www.roboticsproceedings.org/rss07/p22.pdf)
 
@@ -258,7 +258,7 @@ Configuration Space
 
 * [Navigation stick - ROS](http://wiki.ros.org/move_base)
 
-  ![image-20200717102228639](../../../../../WMY/Typora/All File Picture/image-20200717102228639.png)
+  ![image-20200717102228639](./Pictures/image-20200717102228639.png)
 
   * Global planner: A*,D*, RRTs, etc
   * Local planner: Dwa,eband, Teb, etc
