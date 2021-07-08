@@ -1,10 +1,8 @@
-[toc]
-
 # ROS 操作系统
 
 ## 零、文件系统
 
-![image-20200706102646605](D:/WMY/Typora/All File Picture/image-20200706102646605.png)
+![image-20200706102646605](./Pictures/image-20200706102646605.png)
 
 ### Catkin编译系统
 
