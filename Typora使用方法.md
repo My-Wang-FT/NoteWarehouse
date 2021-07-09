@@ -1,5 +1,3 @@
-[TOC]
-
 # Typora使用方法
 
 ### 菜单
@@ -72,7 +70,7 @@ int main (int argc, char const * argv[])
 }
 ```
 
-### 数学块
+### 数学块（MarkDown不适用）
 
 开头$$加换行键，产生输入区域，输入Tex/LaTex格式的数学公式
 $$
@@ -194,7 +192,7 @@ Use the `printf()` function
 
 Use the `printf()` function
 
-### 数学式
+### 数学式（MarkDown不适用）
 
 ```c
 输入$，然后按ESC键，之后输入Tex命令，可预览
@@ -206,7 +204,7 @@ $\lim_{x\to\infty}\exp(-x)=0$
 
 $f(x)  = x_1+x_2$
 
-### 上下标
+### 上下标（MarkDown不适用）
 
 ```c
 使用~~括住内容为上标
@@ -220,7 +218,7 @@ y^2^=4
 H~2~O
 y^2^=4
 
-### 高亮
+### 高亮（MarkDown不适用）
 
 ```c
 ==内容==。需要自己在偏好设置里面打开这项功能
