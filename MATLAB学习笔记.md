@@ -1,5 +1,3 @@
-[TOC]
-
 # MATLAB学习笔记
 
 ## 矩阵
@@ -1172,9 +1170,9 @@ X为向量，升序排列。A为矩阵，dim表示以列为单位还是以行为
 
 ### 系统模型
 
-<img src="../../../WMY/Typora/All File Picture/image-20201006161743179.png" alt="image-20201006161743179" style="zoom:50%;" />
+<img src="./Pictures/image-20201006161743179.png" alt="image-20201006161743179" style="zoom:50%;" />
 
-<img src="../../../WMY/Typora/All File Picture/image-20201006161808607.png" alt="image-20201006161808607" style="zoom: 33%;" />
+<img src="./Pictures/image-20201006161808607.png" alt="image-20201006161808607" style="zoom: 33%;" />
 
 #### 传递函数模型
 
@@ -1256,7 +1254,7 @@ X为向量，升序排列。A为矩阵，dim表示以列为单位还是以行为
 
 * 框图连接
 
-  ![image-20201006171731758](../../../WMY/Typora/All File Picture/image-20201006171731758.png)
+  ![image-20201006171731758](./Pictures/image-20201006171731758.png)
 
 ### 系统分析
 
