@@ -11,6 +11,7 @@ I will record and upload some notes worth to be saved
 
 ## Ubuntu
 
+* [ubuntu16_04.md](./ubuntu16_04.md)
 * [Ubuntu20_04.md](./Ubuntu20_04.md)
 * [linux_notes.md](./linux_notes.md)
 
