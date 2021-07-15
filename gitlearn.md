@@ -2,6 +2,38 @@
 
 本笔记学习内容来源：[廖雪峰的Git教程](https://www.liaoxuefeng.com/wiki/896043488029600) 
 
+## 课代表指令总结
+
+1. Git基本操作
+   * `git init`：新建本地仓库需要初始化
+   * `git status`：查看当前工作区文件状态
+   * `git add <filename>`：向暂存区添加修改过的文件
+   * `git rm <filename>`：将本来在版本里的文件删除，适用于真的需要删除文件的情况
+   * `git diff <filename>`：查看某文件的修改记录
+   * `git commit -m "<destription>"`：将暂存区的修改提交到Git形成一个新的版本，附带描述
+   * `git log`：查看当前版本前的全部提交版本信息
+   * `git reflog`：查看所有的版本提交历史记录，用于查看版本号
+   * `git reset --hard HEAD^ `：会退到上一个版本
+   * `git reset --hard <commit_id> `：回到指定版本，版本号不需要全部，能区分即可
+   * `git checkout -- <filename>`：把文件在工作区的修改全部撤销，甚至可以恢复删除的文件，适用于还没有`add`的情况
+   * `git reset HEAD <filename>`：将已经`add`到暂存区的某文件去除，回退到当前版本没有被`add`但是被修改了的修改状态
+2. Git远程仓库
+   * `git remote add origin git@github.com:michaelliao/learngit.git`：关联GitHub远程仓库的Git项目
+   * `git push -u origin master`：将当前的`master`分支提交到远程仓库中，第一次需要加上`-u`指令进行关联
+   * `git remote -v`：查看远程版本库信息
+   * `git remote rm origin`：删除本地库与远程库的联系，当然本地库与远程库都还在
+   * `git clone git@github.com:Username/Projectname.git`：用ssh协议克隆远程仓库到本地
+   * `git clone https://github.com/Username/Projectname.git`：用http协议克隆远程仓库到本地
+3. Git分支管理
+   * `git branch`：查看分支
+   * `git branch <name>`：创建分支
+   * `git checkout <name>` & `git switch <name>`：切换分支
+   * `git checkout -b <name>` & `git switch -c <name>`：创建并切换分支
+   * `git merge <name>`：合并某分支到当前分支
+   * `git branch -d <name>`：删除分支
+
+
+
 ## 本地Git使用
 
 ###  创建版本库
@@ -93,7 +125,7 @@ Date:   Wed Jul 14 19:01:11 2021 +0800
 
 其中如果不需要显示这么复杂，则可以增加参数 `--pretty=<tab>`来修改显示格式
 
-Git的当前版本用`HEAD`描述，向上一个版本，则使用`HEAD^`，向上100个版本则使用`HEAD~100`，事实上，`HEAD`是一个指针，指向当前版本的`commit_id`，如果进行版本回退，Git会将指针指向新的版本号，然后顺便把工作区的文件更新了。
+Git的当前版本用`HEAD`描述，向上一个版本，则使用`HEAD^`，向上100个版本则使用`HEAD~100`，事实上，`HEAD`是一个指针，指向当前版本的`commit_id`，如果进行版本回退，Git会将指针指向新的版本号，然后顺便把工作区的文件更新了。了解更多`HEAD`的实质，请看分支管理一节。
 
 如果要回退到之前的某个版本，需要使用`git reset`命令
 
@@ -203,7 +235,7 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 $ git remote add origin git@github.com:michaelliao/learngit.git
 ```
 
-请千万注意，把上面的`michaelliao`替换成你自己的GitHub账户名，否则，你在本地关联的就是我的远程库，关联没有问题，但是你以后推送是推不上去的，因为你的SSH Key公钥不在我的账户列表中。
+**请千万注意**，把上面的`michaelliao`替换成你自己的GitHub账户名，否则，你在本地关联的就是我的远程库，关联没有问题，但是你以后推送是推不上去的，因为你的SSH Key公钥不在我的账户列表中。
 
 添加后，远程库的名字就是`origin`，这是Git默认的叫法，也可以改成别的，但是`origin`这个名字一看就知道是远程库。
 
@@ -245,13 +277,98 @@ $ git remote rm origin
 
 ### 从远程仓库克隆
 
+使用GitHub中的指令即可克隆该库
 
+GitHub给出的地址不止一个，还可以用`https://github.com/michaelliao/gitskills.git`这样的地址。实际上，Git支持多种协议，默认的`git://`使用ssh，但也可以使用`https`等其他协议。
 
 ## 分支管理
 
-### 创建与合并分支
+在Git中，分支实际是使用指针实现的。每次当我们进行`commit`工作，都是让`HEAD`指向的当前分支指针指向最新的提交版本，而`HEAD`指向的是当前分支，当前分支指向的是版本，因此使用`HEAD`可以确定当前分支，以及当前分支的提交点。
 
+主分支名为`master`，当我们创建新的分支，如`dev`，实际上创建的是名为`dev`的指针，指向`master`相同的提交，并且将`HEAD`也指向`dev`这个指针。
 
+如果我们需要合并两个分支，我们只需要将`master`直接指向`dev`的当前提交即可。合并完之后，我们甚至可以删除`dev`分支，因为删除该分支仅仅是删除这个指针，此时我们又只剩下了一个`master`主分支。
+
+### 创建切换分支
+
+首先，我们创建`dev`分支，然后切换到`dev`分支：
+
+```shell
+$ git checkout -b dev
+Switched to a new branch 'dev'
+```
+
+`git checkout`命令加上`-b`参数表示创建并切换，相当于以下两条命令：
+
+```shell
+$ git branch dev
+$ git checkout dev
+Switched to branch 'dev'
+```
+
+然后，用`git branch`命令查看当前分支：
+
+```shell
+$ git branch
+* dev
+  master
+```
+
+`git branch`命令会列出所有分支，当前分支前面会标一个`*`号。
+
+之后在进行提交，都是在dev分支上进行提交。
+
+### switch
+
+我们注意到切换分支使用`git checkout <branch>`，而前面讲过的撤销修改则是`git checkout -- <file>`，同一个命令，有两种作用，确实有点令人迷惑。
+
+实际上，切换分支这个动作，用`switch`更科学。因此，最新版本的Git提供了新的`git switch`命令来切换分支：
+
+创建并切换到新的`dev`分支，可以使用：
+
+```
+$ git switch -c dev
+```
+
+直接切换到已有的`master`分支，可以使用：
+
+```
+$ git switch master
+```
+
+使用新的`git switch`命令，比`git checkout`要更容易理解。
+
+### 合并分支
+
+现在，我们把`dev`分支的工作成果合并到`master`分支上：
+
+```shell
+$ git merge dev
+Updating d46f35e..b17d20e
+Fast-forward
+ readme.txt | 1 +
+ 1 file changed, 1 insertion(+)
+```
+
+`git merge`命令用于合并指定分支到当前分支。
+
+### 删除分支
+
+合并完成后，就可以放心地删除`dev`分支了：
+
+```shell
+$ git branch -d dev
+Deleted branch dev (was b17d20e).
+```
+
+删除后，查看`branch`，就只剩下`master`分支了：
+
+```shell
+$ git branch
+* master
+```
+
+因为创建、合并和删除分支非常快，所以Git鼓励你使用分支完成某个任务，合并后再删掉分支，这和直接在`master`分支上工作效果是一样的，但过程更安全。
 
 ### 解决冲突
 
