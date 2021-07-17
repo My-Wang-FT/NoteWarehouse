@@ -85,6 +85,13 @@ git clone https://gitee.com/han8gui/zsh-autosuggestions.git ${ZSH_CUSTOM:-~/.oh-
 
 再将~/.zshrc中的`plugins=(git)`改为`plugins=(git zsh-syntax-highlighting zsh-autosuggestions)`, 最后运行`source ~/.zshrc`
 
+最后，如果需要使用ros，同一般bash一样，需要在配置文件中增加一句话：
+
+```bash
+vim ~/.zshrc
+source /opt/ros/noetic/setup.zsh
+```
+
 ## terminator 样式配置
 
 打开配置文件：
