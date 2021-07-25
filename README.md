@@ -19,6 +19,8 @@ I will record and upload some notes worth to be saved
 
 * [MATLAB学习笔记.md](./MATLAB学习笔记.md)
 * [Python学习笔记.md](./Python学习笔记.md)
+* [Visual Studio Code](./VS_code.md)
+
 
 ## Course
 
