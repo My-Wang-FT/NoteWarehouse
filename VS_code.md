@@ -62,8 +62,38 @@
 在源代码管理中点击文件的加减号暂存或者取消暂存
 点击`√`将暂存文件进行提交，点击`···`进行更多操作
 
+## Debug in VS Code
 
 ## 关于插件
 
 [插件推荐](https://cloud.tencent.com/developer/article/1796162)
 
+* [settings sync](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync)：可以将VS code的设置同步到GitHub的Gist中。可以在控制面板中输入`>Sync`进行操作
+    `Shift+Alt+U`：上传配置
+    `Shift+Alt+D`：下载配置
+
+### 小插件
+
+* [Auto Close Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag)：自动补全HTML/XML的结束标记
+
+* [Bracket Pair Colorizer](https://marketplace.visualstudio.com/items?itemName=CoenraadS.bracket-pair-colorizer)：此扩展允许使用颜色标识匹配的括号
+
+* [中文支持](https://marketplace.visualstudio.com/items?itemName=MS-CEINTL.vscode-language-pack-zh-hans)：中文（简体）语言包为 VS Code 提供本地化界面
+
+* [Markdown Preview Enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)：Markdown预览
+
+* [XML Tools](https://marketplace.visualstudio.com/items?itemName=DotJoshJohnson.xml)：代码补全
+
+### 开发必须
+
+* [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
+
+* [Chinese (Simplified) Language Pack for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=MS-CEINTL.vscode-language-pack-zh-hans)
+
+* [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph)
+
+* [Cmake](https://marketplace.visualstudio.com/items?itemName=twxs.cmake) & [Cmake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)
+
+* [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+
+* [ROS](https://marketplace.visualstudio.com/items?itemName=ms-iot.vscode-ros)
