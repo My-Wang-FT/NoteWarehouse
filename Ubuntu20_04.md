@@ -137,12 +137,11 @@ sudo vim config
 [plugins]
 ```
 
-最后需要在~/.bashrc中增加一句：
+最后需要在~/.bashrc中修改用户名颜色
+
+  ![vim_bashrc.png](./Pictures/vim_bashrc.png)
+上图中，修改PS1=....，可以更改颜色。将原来的可以屏蔽掉，添加自己的设置：
 
 ```bash
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
+PS1="\[\e[01;32;36m\]\u\[\e[37;33m\]@\h: \[\e[36;32m\]\w\[\e[0m\]\\$ "
 ```
