@@ -5,25 +5,45 @@
 ## 快捷键
 
 `Ctrl+Shift+G`：切换到Git分支管理
+
 `Ctrl+Shift+I`：整个文档格式化
+
 `Ctrl+Shift+M`：快速跳入项目中的错误和警告
+
 `Ctrl+Shift+P` `F1`：命令面板
+
 `Ctrl+Shift+V`：打开Markdown预览
+
 `Ctrl+Shift+X`：扩展
+
 `F8` `Shift+F8`：循环浏览错误
+
 `Ctrl+B`：缩放侧边栏
+
 `Ctrl+G`：导航到特定行
+
 `Ctrl+J`：缩放下方面板
+
 `Ctrl+L`：选择当前行
+
 `Ctrl+P`：快速打开文件
+
 `Ctrl+R`：快速切换工作区
+
 `Ctrl+U`：撤销到上一个光标位置
+
 `Ctrl+W`：关闭活动的编辑器
+
 `Ctrl+,`：打开用户设置
+
 `Ctrl+·`：综合终端
+
 `Ctrl+\`：横排分屏编辑
+
 `Ctrl+1`：切换编辑器组
+
 `Ctrl+PageUp` `Ctrl+PageDown`：切换编辑器
+
 `Alt+UP` `Alt+DOWN`：上下移动一整行
 
 更多键盘快捷键的配置可以添加到`keybindings.json`文件中
