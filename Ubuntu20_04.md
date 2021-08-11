@@ -140,6 +140,7 @@ sudo vim config
 最后需要在~/.bashrc中修改用户名颜色
 
   ![vim_bashrc.png](./Pictures/vim_bashrc.png)
+
 上图中，修改PS1=....，可以更改颜色。将原来的可以屏蔽掉，添加自己的设置：
 
 ```bash
