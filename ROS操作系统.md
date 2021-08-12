@@ -4,73 +4,73 @@
 
 ![image-20200706102646605](./Pictures/image-20200706102646605.png)
 
-### Catkin编译系统
+### Catkin 编译系统
 
-* 以package为单元编译
-* 需要在workspace目录下编译，目录下需要有src文件：`$catkin_make`
-* 编译之后需要手动source一下环境
-* `$source YOUPATH/catkin_ws/devel/setup.bashrc`
-* `$echo “source YOUPATH/catkin_ws/devel/setup.bashrc” >> ./bashrc`
+- 以 package 为单元编译
+- 需要在 workspace 目录下编译，目录下需要有 src 文件：`$catkin_make`
+- 编译之后需要手动 source 一下环境
+- `$source YOUPATH/catkin_ws/devel/setup.bashrc`
+- `$echo “source YOUPATH/catkin_ws/devel/setup.bashrc” >> ./bashrc`
 
-### Package文件
+### Package 文件
 
-* 包括package.xml与Cmakelists.txt
+- 包括 package.xml 与 Cmakelists.txt
 
-* `$catkin_create_pkg <package_name> [depend1] [depend2] ...`
+- `$catkin_create_pkg <package_name> [depend1] [depend2] ...`
 
   如：`$catkin_create_pkg test_pkg roscpp rospy std_msgs`
 
-* `rospack help`
+- `rospack help`
 
-* `rospack list`：列出所有package，需要有source
+- `rospack list`：列出所有 package，需要有 source
 
-* `rospack depends [package]`：显示package的依赖包
+- `rospack depends [package]`：显示 package 的依赖包
 
-* `rospack find [package]`：定位某个package
+- `rospack find [package]`：定位某个 package
 
-* `rospack prifile`：刷新所有package的位置记录
+- `rospack prifile`：刷新所有 package 的位置记录
 
-* `roscd [package]`：cd到package的所在路径
+- `roscd [package]`：cd 到 package 的所在路径
 
-* `rosls [package]`：列出package下的文件
+- `rosls [package]`：列出 package 下的文件
 
-* `rosdep check [package]`：检查package的依赖是否满足
+- `rosdep check [package]`：检查 package 的依赖是否满足
 
-* `rosdep install [package]`：安装package的依赖项
+- `rosdep install [package]`：安装 package 的依赖项
 
-* `rosdep db`：生成和显示依赖的数据库
+- `rosdep db`：生成和显示依赖的数据库
 
-* `rsodep init`：初始化/etc/ros/rosdep中的源
+- `rsodep init`：初始化/etc/ros/rosdep 中的源
 
-* `rosdep keys [package]`：列出package所需要的所有公钥
+- `rosdep keys [package]`：列出 package 所需要的所有公钥
 
-* `rosdep update`：更新本地的rosdep数据库
+- `rosdep update`：更新本地的 rosdep 数据库
 
-* `rosdep install --from-paths src --ignore-src --rosdistro=kinetic -y`，用于安装工作空间中 src 路径下所有package的依赖项（由pacakge.xml文件指定）
+- `rosdep install --from-paths src --ignore-src --rosdistro=kinetic -y`，用于安装工作空间中 src 路径下所有 package 的依赖项（由 pacakge.xml 文件指定）
 
 ## 一、通信架构
 
 ### Master
 
-* 管理节点，实现节点之间的点对点通信
-* node启动时需要向master注册
-* `$roscore`：启动master，rosout（日志输出Node），和parameter server（参数服务器）  
+- 管理节点，实现节点之间的点对点通信
+- node 启动时需要向 master 注册
+- `$roscore`：启动 master，rosout（日志输出 Node），和 parameter server（参数服务器）
 
 ### Node
 
-* ROS进程，pkg中的可执行文件运行的实例
-* `$rosrun [pkg_name] [node_name]`
-* `$rosnode list`
-* `$rosnode info [node_name]`
-* `$rosnode kill [node_name]`
-* `$rosnode ping`
-* `$rosnode cleanup`：清除不可到达的节点的注册信息
+- ROS 进程，pkg 中的可执行文件运行的实例
+- `$rosrun [pkg_name] [node_name]`
+- `$rosnode list`
+- `$rosnode info [node_name]`
+- `$rosnode kill [node_name]`
+- `$rosnode ping`
+- `$rosnode cleanup`：清除不可到达的节点的注册信息
 
-### Launch文件
+### Launch 文件
 
-* 一次性启动多个Node
+- 一次性启动多个 Node
 
-* launch文件遵循着xml格式规范，是一种标签文本，它的格式包括以下标签：
+- launch 文件遵循着 xml 格式规范，是一种标签文本，它的格式包括以下标签：
 
   ```xml
   <launch> 		<!--根标签-->
@@ -86,88 +86,84 @@
   </launch> 		<!--根标签-->
   ```
 
-* `$roslaunch [pkg_name] [file_name.launch]`：自动启动master（如果没启动）和多个节点
+- `$roslaunch [pkg_name] [file_name.launch]`：自动启动 master（如果没启动）和多个节点
 
 ### Topic
 
-* ROS中的异步通信，采用publish和subscribe通信，类似与公告板
-*  一个Topic可以有多个Subscriber，可以有多个Publisher发布同一个Topic
-* `$rostopic list`
-* `$rostopic info /topic_name`
-* `$rostopic echo /topic_name`：显示某个Topic的内容
-* `$rostopic pub /topic_name …`
-* `rostopic hz topic_nale`
-* `$rostopic type /topic_name`：显示某个Topic的类型
+- ROS 中的异步通信，采用 publish 和 subscribe 通信，类似与公告板
+- 一个 Topic 可以有多个 Subscriber，可以有多个 Publisher 发布同一个 Topic
+- `$rostopic list`
+- `$rostopic info /topic_name`
+- `$rostopic echo /topic_name`：显示某个 Topic 的内容
+- `$rostopic pub /topic_name …`
+- `rostopic hz topic_nale`
+- `$rostopic type /topic_name`：显示某个 Topic 的类型
 
 ### Message
 
-* Topic内容的数据类型定义在.msg中，是Class，是Struct
-* `$rosmsg list`
-* `$rosmsg show /msg_name`
-* 常用msg合集，请见下文
+- Topic 内容的数据类型定义在.msg 中，是 Class，是 Struct
+- `$rosmsg list`
+- `$rosmsg show /msg_name`
+- 常用 msg 合集，请见下文
 
 ### Service
 
-* 同步通信方式，通过request和reply方式通信，多对一，类似与服务器和用户
-* 一个是Server，一个是Client，C发送请求之后会等待S回复，之后才会继续
-* 可以理解为从其他Node调用函数
-* 通信**格式**为.srv
-* srv只能嵌套msg，不能嵌套srv
-* 需要修改package.xml和CMakeList.txt
-* `$rosservice list`
-* `$rosservice info service_name`
-* `$rosservice call service_name args`：args为传入参数
-* `$rossrv list`
-* `$rossrv show srv_name`
+- 同步通信方式，通过 request 和 reply 方式通信，多对一，类似与服务器和用户
+- 一个是 Server，一个是 Client，C 发送请求之后会等待 S 回复，之后才会继续
+- 可以理解为从其他 Node 调用函数
+- 通信**格式**为.srv
+- srv 只能嵌套 msg，不能嵌套 srv
+- 需要修改 package.xml 和 CMakeList.txt
+- `$rosservice list`
+- `$rosservice info service_name`
+- `$rosservice call service_name args`：args 为传入参数
+- `$rossrv list`
+- `$rossrv show srv_name`
 
 ### Parameter Server
 
-* 可以理解为全局define，是存储各种参数的字典
-* 可以通过命令行，launch文件和API中维护
-* `$rosparam list`：列出当前所有参数
-* `$rosparam get param_key`：显示某个参数的值
-* `$rosparam set param_key param_value`：设置某个参数的值
-* `$rosparam dump file_name`：保存参数到文件
-* `$rosparam load file_name`：从文件读取参数，需要遵从YAML格式
-* `$rosparam delete param_key`：删除参数
+- 可以理解为全局 define，是存储各种参数的字典
+- 可以通过命令行，launch 文件和 API 中维护
+- `$rosparam list`：列出当前所有参数
+- `$rosparam get param_key`：显示某个参数的值
+- `$rosparam set param_key param_value`：设置某个参数的值
+- `$rosparam dump file_name`：保存参数到文件
+- `$rosparam load file_name`：从文件读取参数，需要遵从 YAML 格式
+- `$rosparam delete param_key`：删除参数
 
 ### Action
 
-* 有状态反馈，常常在长时间，可抢占（被打断）的任务中
-* 通信数据格式为.antion
-* .action分为三部分，goal，result，feedback
+- 有状态反馈，常常在长时间，可抢占（被打断）的任务中
+- 通信数据格式为.antion
+- .action 分为三部分，goal，result，feedback
 
 ## 二、常用工具
 
 ### Gazebo
 
-* 可视化图形工具，作为主要的仿真环境
-* 可以在上面进行各种物理模型等的仿真
+- 可视化图形工具，作为主要的仿真环境
+- 可以在上面进行各种物理模型等的仿真
 
 ### rviz
 
-* 接收Topic用3D可视化呈现出来
+- 接收 Topic 用 3D 可视化呈现出来
 
 ### rqt
 
-* rqt_graph:显示通信架构
-* rqt_plot  :绘制曲线
-* rqt_console   :查看日志
+- rqt_graph:显示通信架构
+- rqt_plot :绘制曲线
+- rqt_console :查看日志
 
 ### rosbag
 
-* 将Topic数据记录到.bag中，可以回放
-* `$rosbag record topic_names`：记录某些Topic到bag中
-* `$rosbag record -a`：记录所有Topic到bag中
-* `$rosbag play bag_file`：回放bag
+- 将 Topic 数据记录到.bag 中，可以回放
+- `$rosbag record topic_names`：记录某些 Topic 到 bag 中
+- `$rosbag record -a`：记录所有 Topic 到 bag 中
+- `$rosbag play bag_file`：回放 bag
 
+## 常用 msg 结构合集
 
-
-
-
-## 常用msg结构合集
-
-本小节主要介绍常见的message类型，包括std_msgs, sensor_msgs, nav_msgs,geometry_msgs等
+本小节主要介绍常见的 message 类型，包括 std_msgs, sensor_msgs, nav_msgs,geometry_msgs 等
 
 ### Vector3.msg
 

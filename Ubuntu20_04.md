@@ -1,6 +1,6 @@
-# Ubuntu20.04重装系统后的软件安装指南
+# Ubuntu20.04 重装系统后的软件安装指南
 
-## 如何解决Ubuntu20.04与Windows系统时间不同步
+## 如何解决 Ubuntu20.04 与 Windows 系统时间不同步
 
 ```bash
 timedatectl set-local-rtc true
@@ -48,32 +48,32 @@ deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-proposed main restricted unive
 
 ## 中文输入法
 
-按照sougou for linux的官方教程安装即可
+按照 sougou for linux 的官方教程安装即可
 
-## 更换Terminal为zsh
+## 更换 Terminal 为 zsh
 
-终端采用zsh和oh-my-zsh，美观且功能强大！！！ZSH, also called the Z shell
+终端采用 zsh 和 oh-my-zsh，美观且功能强大！！！ZSH, also called the Z shell
 
-首先，安装zsh：
+首先，安装 zsh：
 
 ```bash
 sudo apt install zsh
 ```
 
-将默认终端由bash换成zsh（可选）
+将默认终端由 bash 换成 zsh（可选）
 
 ```bash
 chsh -s /bin/zsh   #注意：不要使用sudo
 ```
 
-安装oh-my-zsh 项目来帮我们配置 zsh，采用wget安装：
+安装 oh-my-zsh 项目来帮我们配置 zsh，采用 wget 安装：
 
- ```bash
+```bash
 cd ~/Downloads
 wget https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh
 chmod +x install.sh
 ./install.sh
- ```
+```
 
 安装语法高亮插件和自动补全插件
 
@@ -83,9 +83,9 @@ git clone https://gitee.com/lxgyChen/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~
 git clone https://gitee.com/han8gui/zsh-autosuggestions.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
-再将~/.zshrc中的`plugins=(git)`改为`plugins=(git zsh-syntax-highlighting zsh-autosuggestions)`, 最后运行`source ~/.zshrc`
+再将~/.zshrc 中的`plugins=(git)`改为`plugins=(git zsh-syntax-highlighting zsh-autosuggestions)`, 最后运行`source ~/.zshrc`
 
-最后，如果需要使用ros，同一般bash一样，需要在配置文件中增加一句话：
+最后，如果需要使用 ros，同一般 bash 一样，需要在配置文件中增加一句话：
 
 ```bash
 vim ~/.zshrc
@@ -97,7 +97,7 @@ source /opt/ros/noetic/setup.zsh
 打开配置文件：
 
 ```bash
-cd ~/.config/terminator/ 
+cd ~/.config/terminator/
 sudo vim config
 ```
 
@@ -137,11 +137,11 @@ sudo vim config
 [plugins]
 ```
 
-最后需要在~/.bashrc中修改用户名颜色
+最后需要在~/.bashrc 中修改用户名颜色
 
-  ![vim_bashrc.png](./Pictures/vim_bashrc.png)
+![vim_bashrc.png](./Pictures/vim_bashrc.png)
 
-上图中，修改PS1=....，可以更改颜色。将原来的可以屏蔽掉，添加自己的设置：
+上图中，修改 PS1=....，可以更改颜色。将原来的可以屏蔽掉，添加自己的设置：
 
 ```bash
 PS1="\[\e[01;32;36m\]\u\[\e[37;33m\]@\h: \[\e[36;32m\]\w\[\e[0m\]\\$ "

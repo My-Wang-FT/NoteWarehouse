@@ -1,44 +1,42 @@
-# Git学习笔记
+# Git 学习笔记
 
-本笔记学习内容来源：[廖雪峰的Git教程](https://www.liaoxuefeng.com/wiki/896043488029600) 
+本笔记学习内容来源：[廖雪峰的 Git 教程](https://www.liaoxuefeng.com/wiki/896043488029600)
 
 ## 课代表指令总结
 
-1. Git基本操作
-   * `git init`：新建本地仓库需要初始化
-   * `git status`：查看当前工作区文件状态
-   * `git add <filename>`：向暂存区添加修改过的文件
-   * `git rm <filename>`：将本来在版本里的文件删除，适用于真的需要删除文件的情况
-   * `git diff <filename>`：查看某文件的修改记录
-   * `git commit -m "<destription>"`：将暂存区的修改提交到Git形成一个新的版本，附带描述
-   * `git log`：查看当前版本前的全部提交版本信息
-   * `git reflog`：查看所有的版本提交历史记录，用于查看版本号
-   * `git reset --hard HEAD^ `：会退到上一个版本
-   * `git reset --hard <commit_id> `：回到指定版本，版本号不需要全部，能区分即可
-   * `git checkout -- <filename>`：把文件在工作区的修改全部撤销，甚至可以恢复删除的文件，适用于还没有`add`的情况
-   * `git reset HEAD <filename>`：将已经`add`到暂存区的某文件去除，回退到当前版本没有被`add`但是被修改了的修改状态
-2. Git远程仓库
-   * `git remote add origin git@github.com:michaelliao/learngit.git`：关联GitHub远程仓库的Git项目
-   * `git push -u origin master`：将当前的`master`分支提交到远程仓库中，第一次需要加上`-u`指令进行关联
-   * `git remote -v`：查看远程版本库信息
-   * `git remote rm origin`：删除本地库与远程库的联系，当然本地库与远程库都还在
-   * `git clone git@github.com:Username/Projectname.git`：用ssh协议克隆远程仓库到本地
-   * `git clone https://github.com/Username/Projectname.git`：用http协议克隆远程仓库到本地
-3. Git分支管理
-   * `git branch`：查看分支
-   * `git branch <name>`：创建分支
-   * `git checkout <name>` & `git switch <name>`：切换分支
-   * `git checkout -b <name>` & `git switch -c <name>`：创建并切换分支
-   * `git merge <name>`：合并某分支到当前分支
-   * `git branch -d <name>`：删除分支
+1. Git 基本操作
+   - `git init`：新建本地仓库需要初始化
+   - `git status`：查看当前工作区文件状态
+   - `git add <filename>`：向暂存区添加修改过的文件
+   - `git rm <filename>`：将本来在版本里的文件删除，适用于真的需要删除文件的情况
+   - `git diff <filename>`：查看某文件的修改记录
+   - `git commit -m "<destription>"`：将暂存区的修改提交到 Git 形成一个新的版本，附带描述
+   - `git log`：查看当前版本前的全部提交版本信息
+   - `git reflog`：查看所有的版本提交历史记录，用于查看版本号
+   - `git reset --hard HEAD^ `：会退到上一个版本
+   - `git reset --hard <commit_id> `：回到指定版本，版本号不需要全部，能区分即可
+   - `git checkout -- <filename>`：把文件在工作区的修改全部撤销，甚至可以恢复删除的文件，适用于还没有`add`的情况
+   - `git reset HEAD <filename>`：将已经`add`到暂存区的某文件去除，回退到当前版本没有被`add`但是被修改了的修改状态
+2. Git 远程仓库
+   - `git remote add origin git@github.com:michaelliao/learngit.git`：关联 GitHub 远程仓库的 Git 项目
+   - `git push -u origin master`：将当前的`master`分支提交到远程仓库中，第一次需要加上`-u`指令进行关联
+   - `git remote -v`：查看远程版本库信息
+   - `git remote rm origin`：删除本地库与远程库的联系，当然本地库与远程库都还在
+   - `git clone git@github.com:Username/Projectname.git`：用 ssh 协议克隆远程仓库到本地
+   - `git clone https://github.com/Username/Projectname.git`：用 http 协议克隆远程仓库到本地
+3. Git 分支管理
+   - `git branch`：查看分支
+   - `git branch <name>`：创建分支
+   - `git checkout <name>` & `git switch <name>`：切换分支
+   - `git checkout -b <name>` & `git switch -c <name>`：创建并切换分支
+   - `git merge <name>`：合并某分支到当前分支
+   - `git branch -d <name>`：删除分支
 
+## 本地 Git 使用
 
+### 创建版本库
 
-## 本地Git使用
-
-###  创建版本库
-
-版本库：版本库又名仓库，英文名**repository**，你可以简单理解成一个目录，这个目录里面的所有文件都可以被Git管理起来，每个文件的修改、删除，Git都能跟踪，以便任何时刻都可以追踪历史，或者在将来某个时刻可以“还原”。
+版本库：版本库又名仓库，英文名**repository**，你可以简单理解成一个目录，这个目录里面的所有文件都可以被 Git 管理起来，每个文件的修改、删除，Git 都能跟踪，以便任何时刻都可以追踪历史，或者在将来某个时刻可以“还原”。
 
 ```shell
 $ mkdir learngit
@@ -48,8 +46,8 @@ $ git init
 
 创建文件之后，需要将文件放入仓库中
 
-1. 用`git add filename`命令告诉Git，把文件加入仓库，不会有任何提示
-2. 用命令`git commit`告诉Git，把文件提交到仓库
+1. 用`git add filename`命令告诉 Git，把文件加入仓库，不会有任何提示
+2. 用命令`git commit`告诉 Git，把文件提交到仓库
 
 ```shell
 $ git commit -m "wrote a readme file"
@@ -69,7 +67,7 @@ $ git commit -m "add 3 files."
 
 若在本地修改了某个文件，则可以使用`git status`查看结果
 
-比如若修改了readme.txt，会有如下提示：
+比如若修改了 readme.txt，会有如下提示：
 
 ```shell
 $ git status
@@ -86,7 +84,7 @@ no changes added to commit (use "git add" and/or "git commit -a")
 如果需要查看具体修改内容，需要使用命令`git diff filename`
 
 ```shell
-$ git diff readme.txt 
+$ git diff readme.txt
 diff --git a/readme.txt b/readme.txt
 index 46d49bf..9247db6 100644
 --- a/readme.txt
@@ -99,7 +97,7 @@ index 46d49bf..9247db6 100644
 
 ### 版本回退
 
-查看之前的Git日志，即之前的修改记录`git log`
+查看之前的 Git 日志，即之前的修改记录`git log`
 
 ```shell
 commit 82390482e3026e7322b5a5f189898561ad73d073 (HEAD -> master)
@@ -121,23 +119,23 @@ Date:   Wed Jul 14 19:01:11 2021 +0800
     write a readme file
 ```
 
-解释：commit 后面的字符是版本号`commit_id`，之后是更改的作者和邮箱，之后是修改的日期，最后是commit时增加的描述
+解释：commit 后面的字符是版本号`commit_id`，之后是更改的作者和邮箱，之后是修改的日期，最后是 commit 时增加的描述
 
 其中如果不需要显示这么复杂，则可以增加参数 `--pretty=<tab>`来修改显示格式
 
-Git的当前版本用`HEAD`描述，向上一个版本，则使用`HEAD^`，向上100个版本则使用`HEAD~100`，事实上，`HEAD`是一个指针，指向当前版本的`commit_id`，如果进行版本回退，Git会将指针指向新的版本号，然后顺便把工作区的文件更新了。了解更多`HEAD`的实质，请看分支管理一节。
+Git 的当前版本用`HEAD`描述，向上一个版本，则使用`HEAD^`，向上 100 个版本则使用`HEAD~100`，事实上，`HEAD`是一个指针，指向当前版本的`commit_id`，如果进行版本回退，Git 会将指针指向新的版本号，然后顺便把工作区的文件更新了。了解更多`HEAD`的实质，请看分支管理一节。
 
 如果要回退到之前的某个版本，需要使用`git reset`命令
 
 ```shell
-$ git reset --hard HEAD^ 
+$ git reset --hard HEAD^
 HEAD 现在位于 291a7de update readme file
 ```
 
-或者使用版本号（不用写全，Git会自动寻找对应的版本号）
+或者使用版本号（不用写全，Git 会自动寻找对应的版本号）
 
 ```shell
-$ git reset --hard 8239    
+$ git reset --hard 8239
 HEAD 现在位于 8239048 add GPL
 ```
 
@@ -159,11 +157,11 @@ ef02d64 HEAD@{5}: commit (initial): write a readme file
 
 ### 工作区和暂存区
 
-工作区（Working directory）：我们的Git项目存在的目录
+工作区（Working directory）：我们的 Git 项目存在的目录
 
-版本库（Repository）：工作区有一个隐藏目录`.git`，这个不算工作区，而是Git的版本库。
+版本库（Repository）：工作区有一个隐藏目录`.git`，这个不算工作区，而是 Git 的版本库。
 
-Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支`master`，以及指向`master`的一个指针叫`HEAD`。
+Git 的版本库里存了很多东西，其中最重要的就是称为 stage（或者叫 index）的暂存区，还有 Git 为我们自动创建的第一个分支`master`，以及指向`master`的一个指针叫`HEAD`。
 
 ![0](./Pictures/0.jpeg)
 
@@ -171,7 +169,7 @@ Git的版本库里存了很多东西，其中最重要的就是称为stage（或
 
 第二步是用`git commit`提交更改，实际上就是把暂存区的所有内容提交到当前分支。
 
-因为我们创建Git版本库时，Git自动为我们创建了唯一一个`master`分支，所以，现在，`git commit`就是往`master`分支上提交更改。
+因为我们创建 Git 版本库时，Git 自动为我们创建了唯一一个`master`分支，所以，现在，`git commit`就是往`master`分支上提交更改。
 
 即需要提交的文件修改通通放到暂存区，然后，一次性提交暂存区的所有修改。
 
@@ -189,11 +187,11 @@ Git的版本库里存了很多东西，其中最重要的就是称为stage（或
 
 总之，就是让这个文件回到最近一次`git commit`或`git add`时的状态。
 
-场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令`git checkout -- file`。
+场景 1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令`git checkout -- file`。
 
-场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令`git reset HEAD <file>`，就回到了场景1，第二步按场景1操作。
+场景 2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令`git reset HEAD <file>`，就回到了场景 1，第二步按场景 1 操作。
 
-场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，参考版本回退一节，不过前提是没有推送到远程库。
+场景 3：已经提交了不合适的修改到版本库时，想要撤销本次提交，参考版本回退一节，不过前提是没有推送到远程库。
 
 ### 删除文件
 
@@ -205,29 +203,29 @@ Git的版本库里存了很多东西，其中最重要的就是称为stage（或
 
 ## 远程仓库
 
-由于你的本地Git仓库和GitHub仓库之间的传输是通过SSH加密的，所以，需要一点设置：
+由于你的本地 Git 仓库和 GitHub 仓库之间的传输是通过 SSH 加密的，所以，需要一点设置：
 
-第1步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有`id_rsa`和`id_rsa.pub`这两个文件，如果已经有了，可直接跳到下一步。如果没有，打开Shell（Windows下打开Git Bash），创建SSH Key：
+第 1 步：创建 SSH Key。在用户主目录下，看看有没有.ssh 目录，如果有，再看看这个目录下有没有`id_rsa`和`id_rsa.pub`这两个文件，如果已经有了，可直接跳到下一步。如果没有，打开 Shell（Windows 下打开 Git Bash），创建 SSH Key：
 
 ```
 $ ssh-keygen -t rsa -C "youremail@example.com"
 ```
 
-你需要把邮件地址换成你自己的邮件地址，然后一路回车，使用默认值即可，由于这个Key也不是用于军事目的，所以也无需设置密码。
+你需要把邮件地址换成你自己的邮件地址，然后一路回车，使用默认值即可，由于这个 Key 也不是用于军事目的，所以也无需设置密码。
 
-如果一切顺利的话，可以在用户主目录里找到`.ssh`目录，里面有`id_rsa`和`id_rsa.pub`两个文件，这两个就是SSH Key的秘钥对，`id_rsa`是私钥，不能泄露出去，`id_rsa.pub`是公钥，可以放心地告诉任何人。
+如果一切顺利的话，可以在用户主目录里找到`.ssh`目录，里面有`id_rsa`和`id_rsa.pub`两个文件，这两个就是 SSH Key 的秘钥对，`id_rsa`是私钥，不能泄露出去，`id_rsa.pub`是公钥，可以放心地告诉任何人。
 
-第2步：登陆GitHub，打开“Account settings”，“SSH Keys”页面：
+第 2 步：登陆 GitHub，打开“Account settings”，“SSH Keys”页面：
 
-然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴`id_rsa.pub`文件的内容
+然后，点“Add SSH Key”，填上任意 Title，在 Key 文本框里粘贴`id_rsa.pub`文件的内容
 
-点“Add Key”，你就应该看到已经添加的Key
+点“Add Key”，你就应该看到已经添加的 Key
 
-当然，GitHub允许你添加多个Key。假定你有若干电脑，你一会儿在公司提交，一会儿在家里提交，只要把每台电脑的Key都添加到GitHub，就可以在每台电脑上往GitHub推送了。
+当然，GitHub 允许你添加多个 Key。假定你有若干电脑，你一会儿在公司提交，一会儿在家里提交，只要把每台电脑的 Key 都添加到 GitHub，就可以在每台电脑上往 GitHub 推送了。
 
 ### 添加远程仓库
 
-首先需要在GitHub上创建与本地工作区同名的仓库，我们首先要将该仓库与本地已有仓库关联到一起：
+首先需要在 GitHub 上创建与本地工作区同名的仓库，我们首先要将该仓库与本地已有仓库关联到一起：
 
 在本地的`learngit`仓库下运行命令：
 
@@ -235,9 +233,9 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 $ git remote add origin git@github.com:michaelliao/learngit.git
 ```
 
-**请千万注意**，把上面的`michaelliao`替换成你自己的GitHub账户名，否则，你在本地关联的就是我的远程库，关联没有问题，但是你以后推送是推不上去的，因为你的SSH Key公钥不在我的账户列表中。
+**请千万注意**，把上面的`michaelliao`替换成你自己的 GitHub 账户名，否则，你在本地关联的就是我的远程库，关联没有问题，但是你以后推送是推不上去的，因为你的 SSH Key 公钥不在我的账户列表中。
 
-添加后，远程库的名字就是`origin`，这是Git默认的叫法，也可以改成别的，但是`origin`这个名字一看就知道是远程库。
+添加后，远程库的名字就是`origin`，这是 Git 默认的叫法，也可以改成别的，但是`origin`这个名字一看就知道是远程库。
 
 下一步，就可以把本地库的所有内容推送到远程库上：
 
@@ -247,7 +245,7 @@ $ git push -u origin master
 
 把本地库的内容推送到远程，用`git push`命令，实际上是把当前分支`master`推送到远程。
 
-我们第一次推送`master`分支时，加上了`-u`参数，Git不但会把本地的`master`分支内容推送的远程新的`master`分支，还会把本地的`master`分支和远程的`master`分支关联起来，在以后的推送或者拉取时就可以简化命令。
+我们第一次推送`master`分支时，加上了`-u`参数，Git 不但会把本地的`master`分支内容推送的远程新的`master`分支，还会把本地的`master`分支和远程的`master`分支关联起来，在以后的推送或者拉取时就可以简化命令。
 
 从现在起，只要本地作了提交，就可以通过命令：
 
@@ -255,7 +253,7 @@ $ git push -u origin master
 $ git push origin master
 ```
 
-把本地`master`分支的最新修改推送至GitHub，现在，你就拥有了真正的分布式版本库！
+把本地`master`分支的最新修改推送至 GitHub，现在，你就拥有了真正的分布式版本库！
 
 ### 删除远程库
 
@@ -273,17 +271,17 @@ origin  git@github.com:michaelliao/learn-git.git (push)
 $ git remote rm origin
 ```
 
-此处的“删除”其实是解除了本地和远程的绑定关系，并不是物理上删除了远程库。远程库本身并没有任何改动。要真正删除远程库，需要登录到GitHub，在后台页面找到删除按钮再删除。
+此处的“删除”其实是解除了本地和远程的绑定关系，并不是物理上删除了远程库。远程库本身并没有任何改动。要真正删除远程库，需要登录到 GitHub，在后台页面找到删除按钮再删除。
 
 ### 从远程仓库克隆
 
-使用GitHub中的指令即可克隆该库
+使用 GitHub 中的指令即可克隆该库
 
-GitHub给出的地址不止一个，还可以用`https://github.com/michaelliao/gitskills.git`这样的地址。实际上，Git支持多种协议，默认的`git://`使用ssh，但也可以使用`https`等其他协议。
+GitHub 给出的地址不止一个，还可以用`https://github.com/michaelliao/gitskills.git`这样的地址。实际上，Git 支持多种协议，默认的`git://`使用 ssh，但也可以使用`https`等其他协议。
 
 ## 分支管理
 
-在Git中，分支实际是使用指针实现的。每次当我们进行`commit`工作，都是让`HEAD`指向的当前分支指针指向最新的提交版本，而`HEAD`指向的是当前分支，当前分支指向的是版本，因此使用`HEAD`可以确定当前分支，以及当前分支的提交点。
+在 Git 中，分支实际是使用指针实现的。每次当我们进行`commit`工作，都是让`HEAD`指向的当前分支指针指向最新的提交版本，而`HEAD`指向的是当前分支，当前分支指向的是版本，因此使用`HEAD`可以确定当前分支，以及当前分支的提交点。
 
 主分支名为`master`，当我们创建新的分支，如`dev`，实际上创建的是名为`dev`的指针，指向`master`相同的提交，并且将`HEAD`也指向`dev`这个指针。
 
@@ -316,13 +314,13 @@ $ git branch
 
 `git branch`命令会列出所有分支，当前分支前面会标一个`*`号。
 
-之后在进行提交，都是在dev分支上进行提交。
+之后在进行提交，都是在 dev 分支上进行提交。
 
 ### switch
 
 我们注意到切换分支使用`git checkout <branch>`，而前面讲过的撤销修改则是`git checkout -- <file>`，同一个命令，有两种作用，确实有点令人迷惑。
 
-实际上，切换分支这个动作，用`switch`更科学。因此，最新版本的Git提供了新的`git switch`命令来切换分支：
+实际上，切换分支这个动作，用`switch`更科学。因此，最新版本的 Git 提供了新的`git switch`命令来切换分支：
 
 创建并切换到新的`dev`分支，可以使用：
 
@@ -352,7 +350,7 @@ Fast-forward
 
 `git merge`命令用于合并指定分支到当前分支。
 
-上面的`Fast-forward`信息，Git告诉我们，这次合并是“快进模式”，也就是直接把`master`指向`dev`的当前提交，所以合并速度非常快。
+上面的`Fast-forward`信息，Git 告诉我们，这次合并是“快进模式”，也就是直接把`master`指向`dev`的当前提交，所以合并速度非常快。
 
 当然，也不是每次合并都能`Fast-forward`。
 
@@ -372,26 +370,16 @@ $ git branch
 * master
 ```
 
-因为创建、合并和删除分支非常快，所以Git鼓励你使用分支完成某个任务，合并后再删掉分支，这和直接在`master`分支上工作效果是一样的，但过程更安全。
+因为创建、合并和删除分支非常快，所以 Git 鼓励你使用分支完成某个任务，合并后再删掉分支，这和直接在`master`分支上工作效果是一样的，但过程更安全。
 
 ### 解决冲突
 
-
-
 ### 分支管理策略
 
+### Bug 分支
 
-
-### Bug分支
-
-
-
-### Feature分支
-
-
+### Feature 分支
 
 ### 多人协作
-
-
 
 ### Rebase

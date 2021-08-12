@@ -225,7 +225,11 @@ int main()
 
 - [Markdown Preview Enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)：Markdown 预览，对应[中文教程](https://shd101wyy.github.io/markdown-preview-enhanced/#/zh-cn/usages)
 
+- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)：代码格式化
+
 - [XML Tools](https://marketplace.visualstudio.com/items?itemName=DotJoshJohnson.xml)：代码补全
+
+- [Markdown all in one](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one)：Markdown 的快捷键和操作
 
 ### 开发必须
 
