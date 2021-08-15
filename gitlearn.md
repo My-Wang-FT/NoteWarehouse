@@ -20,10 +20,13 @@
 2. Git 远程仓库
    - `git remote add origin git@github.com:michaelliao/learngit.git`：关联 GitHub 远程仓库的 Git 项目
    - `git push -u origin master`：将当前的`master`分支提交到远程仓库中，第一次需要加上`-u`指令进行关联
+   - `git pull`：抓取远程的新提交，如果有冲突，需要先处理冲突
    - `git remote -v`：查看远程版本库信息
    - `git remote rm origin`：删除本地库与远程库的联系，当然本地库与远程库都还在
    - `git clone git@github.com:Username/Projectname.git`：用 ssh 协议克隆远程仓库到本地
    - `git clone https://github.com/Username/Projectname.git`：用 http 协议克隆远程仓库到本地
+   - `git checkout -b branch-name origin/branch-name`：在本地创建和远程分支对应的分支，本地分支最好和远程分支一致
+   - `git branch --set-upstream branch-name origin/branch-name`
 3. Git 分支管理
    - `git branch`：查看分支
    - `git branch <name>`：创建分支
@@ -31,6 +34,21 @@
    - `git checkout -b <name>` & `git switch -c <name>`：创建并切换分支
    - `git merge <name>`：合并某分支到当前分支
    - `git branch -d <name>`：删除分支
+   - `git branch -D <name>`：强行删除没有被合并的分支
+   - `git stash`：暂存目前的工作现场，但是并不提交为新版本
+   - `git stash list`：查看多个 stash 内容
+   - `git stash pop`：将最新暂存的工作恢复，并删除这个 stash
+   - `git stash apply`：恢复最新的工作内容，同事不删除这个 stash
+   - `git stash apply stash@{0}`：恢复指定版本的 stash
+   - `git cherry-pick <commit>`：将在以前分支上做的修改应用到当前分支，注意只有修改内容
+4. 标签管理
+   * `git tag <tagname>`：用于新建一个标签，默认为`HEAD`，也可以指定一个`commit id`
+   * `git tag -a <tagname> -m "blablabla..."`：可以指定标签信息
+   * `git tag`：可以查看所有标签
+   * `git push origin <tagname>`：可以推送一个本地标签
+   * `git push origin --tags`：可以推送全部未推送过的本地标签
+   * `git tag -d <tagname>`：可以删除一个本地标签
+   * `git push origin :refs/tags/<tagname>`：可以删除一个远程标签
 
 ## 本地 Git 使用
 
@@ -233,7 +251,7 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 $ git remote add origin git@github.com:michaelliao/learngit.git
 ```
 
-**请千万注意**，把上面的`michaelliao`替换成你自己的 GitHub 账户名，否则，你在本地关联的就是我的远程库，关联没有问题，但是你以后推送是推不上去的，因为你的 SSH Key 公钥不在我的账户列表中。
+请千万注意，把上面的`michaelliao`替换成你自己的 GitHub 账户名，否则，你在本地关联的就是我的远程库，关联没有问题，但是你以后推送是推不上去的，因为你的 SSH Key 公钥不在我的账户列表中。
 
 添加后，远程库的名字就是`origin`，这是 Git 默认的叫法，也可以改成别的，但是`origin`这个名字一看就知道是远程库。
 
@@ -264,6 +282,8 @@ $ git remote -v
 origin  git@github.com:michaelliao/learn-git.git (fetch)
 origin  git@github.com:michaelliao/learn-git.git (push)
 ```
+
+上面显示了可以抓取和推送的 origin 的地址。如果没有推送权限，就看不到 push 的地址。
 
 然后，根据名字删除，比如删除`origin`：
 
@@ -374,12 +394,250 @@ $ git branch
 
 ### 解决冲突
 
+当 Git 无法自动合并分支时，就必须首先解决冲突。解决冲突后，再提交，合并完成。
+
+解决冲突就是把 Git 合并失败的文件手动编辑为我们希望的内容，再提交。
+
+Git 用<<<<<<<，=======，>>>>>>>标记出不同分支的内容
+
+用`git log --graph`命令可以看到分支合并图。
+
 ### 分支管理策略
+
+在实际开发中，我们应该按照几个基本原则进行分支管理：
+
+首先，`master`分支应该是非常稳定的，也就是仅用来发布新版本，平时不能在上面干活；
+
+那在哪干活呢？干活都在`dev`分支上，也就是说，`dev`分支是不稳定的，到某个时候，比如 1.0 版本发布时，再把`dev`分支合并到`master`上，在`master`分支发布 1.0 版本；
+
+你和你的小伙伴们每个人都在`dev`分支上干活，每个人都有自己的分支，时不时地往`dev`分支上合并就可以了。
+
+所以，团队合作的分支看起来就像这样：
+
+![branch](./Pictures/branch.png)
+
+通常，合并分支时，如果可能，Git 会用`Fast forward`模式，但这种模式下，删除分支后，会丢掉分支信息。
+
+但是合并分支时，加上`--no-ff`参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并。
+
+```shell
+$ git merge --no-ff -m "merge with no-ff" dev
+ Merge made by the 'recursive' strategy.
+ readme.txt | 1 +
+ 1 file changed, 1 insertion(+)
+```
 
 ### Bug 分支
 
+软件开发中，bug 就像家常便饭一样。有了 bug 就需要修复，在 Git 中，由于分支是如此的强大，所以，每个 bug 都可以通过一个新的临时分支来修复，修复后，合并分支，然后将临时分支删除。
+
+1. 不进行提交，即可暂存现在的任务内容
+
+并不是你不想提交，而是工作只进行到一半，还没法提交，预计完成还需 1 天时间。但是，必须在两个小时内修复该 bug，怎么办？
+
+幸好，Git 还提供了一个 stash 功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作：
+
+```shell
+$ git stash
+Saved working directory and index state WIP on dev: f52c633 add merge
+```
+
+现在，用 git status 查看工作区，就是干净的（除非有没有被 Git 管理的文件），因此可以放心地创建分支来修复 bug。
+
+2. 创建 bug 分支，修复 bug
+
+首先确定要在哪个分支上修复 bug，假定需要在 master 分支上修复，就从 master 创建临时分支：
+
+```shell
+$ git checkout master
+Switched to branch 'master'
+Your branch is ahead of 'origin/master' by 6 commits.
+  (use "git push" to publish your local commits)
+
+$ git checkout -b issue-101
+Switched to a new branch 'issue-101'
+```
+
+3. 修复完成后，切换到 master 分支，并完成合并，最后删除 issue-101 分支：
+
+```bash
+$ git switch master
+Switched to branch 'master'
+Your branch is ahead of 'origin/master' by 6 commits.
+  (use "git push" to publish your local commits)
+
+$ git merge --no-ff -m "merged bug fix 101" issue-101
+Merge made by the 'recursive' strategy.
+ readme.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+```
+
+4. 切换回当前开发分支
+
+用`git stash list`命令查看之前的工作现场
+
+Git 把 stash 内容存在某个地方了，但是需要恢复一下，有两个办法：
+
+- 用`git stash apply`恢复，但是恢复后，stash 内容并不删除，你需要用`git stash drop`来删除；
+
+- 用`git stash pop`，恢复的同时把 stash 内容也删了：
+
+你可以多次 stash，恢复的时候，先用 git stash list 查看，然后恢复指定的 stash，用命令：
+
+```bash
+$ git stash apply stash@{0}
+```
+
+5. 在 dev 分支上修复同样的 bug
+
+同样的 bug，要在 dev 上修复，我们只需要把`4c805e2 fix bug 101`这个提交所做的修改“复制”到 dev 分支。注意：我们只想复制`4c805e2 fix bug 101`这个提交所做的修改，并不是把整个 master 分支 merge 过来。
+
+为了方便操作，Git 专门提供了一个 cherry-pick 命令，让我们能复制一个特定的提交到当前分支：
+
+```bash
+$ git branch
+* dev
+  master
+$ git cherry-pick 4c805e2
+[master 1d4b803] fix bug 101
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+```
+
+Git 自动给 dev 分支做了一次提交，注意这次提交的 commit 是`1d4b803`，它并不同于 master 的`4c805e2`，因为这两个 commit 只是改动相同，但确实是两个不同的 commit。用`git cherry-pick`，我们就不需要在 dev 分支上手动再把修 bug 的过程重复一遍。
+
+既然可以在`master`分支上修复 bug 后，在`dev`分支上可以“重放”这个修复过程，那么也可以直接在`dev`分支上修复 bug，然后在`master`分支上“重放”。不过你仍然需要`git stash`命令保存现场，才能从`dev`分支切换到`master`分支。
+
 ### Feature 分支
+
+添加一个新功能时，你肯定不希望因为一些实验性质的代码，把主分支搞乱了，所以，每添加一个新功能，最好新建一个 feature 分支，在上面开发，完成后，合并，最后，删除该 feature 分支。
+
+如果要丢弃一个没有被合并过的分支，可以通过`git branch -D <name>`强行删除。
 
 ### 多人协作
 
-### Rebase
+一般远程仓库会有一个默认的主分支`main`或者`master`，多人开发时，一般还会有一个`dev`分支。
+
+当你的小伙伴从远程库 clone 时，默认情况下，你的小伙伴只能看到本地的`master`分支。当他要在`dev`分支上开发，就必须创建远程`origin`的`dev`分支到本地，于是他用这个命令创建本地`dev`分支：
+
+```bash
+$ git checkout -b dev origin/dev
+```
+
+现在，他就可以在`dev`上继续修改，然后，时不时地把`dev`分支`push`到远程。
+
+当他人在远程设置`dev`分支时，你自己本地也有一个`dev`分支，在将你自己的分支推送前，需要指定本地`dev`分支和远程`origin/dev`分支的链接：
+
+```bash
+$ git branch --set-upstream-to=origin/dev dev
+Branch 'dev' set up to track remote branch 'dev' from 'origin'.
+```
+
+在多人对`dev`开发时，难免会遇到多人修改提交有冲突的时候，这个时候需要先用`git pull`把最新的提交从`origin/dev`抓下来，然后，在本地合并，解决冲突，再推送。
+
+因此，多人协作的工作模式通常是这样：
+
+1. 首先，可以试图用`git push origin <branch-name>`推送自己的修改；
+
+2. 如果推送失败，则因为远程分支比你的本地更新，需要先用`git pull`试图合并；
+
+3. 如果合并有冲突，则解决冲突，并在本地提交；
+
+4. 没有冲突或者解决掉冲突后，再用`git push origin <branch-name>`推送就能成功！
+
+如果`git pull`提示`no tracking information`，则说明本地分支和远程分支的链接关系没有创建，用命令`git branch --set-upstream-to <branch-name> origin/<branch-name>`。
+
+### Rebase 变基
+
+* rebase操作可以把本地未push的分叉提交历史整理成直线；
+* rebase的目的是使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比。
+
+举例而言，当前的git历史如下：
+
+```bash
+$ git log --graph --pretty=oneline --abbrev-commit
+* 582d922 (HEAD -> master) add author
+* 8875536 add comment
+* d1be385 (origin/master) init hello
+*   e5e69f1 Merge branch 'dev'
+|\  
+| *   57c53ab (origin/dev, dev) fix env conflict
+| |\  
+| | * 7a5e5dd add env
+| * | 7bd91f1 add new env
+···
+```
+
+注意到Git用`(HEAD -> master)`和`(origin/master)`标识出当前分支的`HEAD`和远程`origin`的位置分别是`582d922 add author`和`d1be385 init hello`，本地分支比远程分支快两个提交。
+
+使用`git pull`拉取远程提交并合并之后，现在我们本地分支比远程分支超前3个提交。
+
+```bash
+$ git log --graph --pretty=oneline --abbrev-commit
+*   e0ea545 (HEAD -> master) Merge branch 'master' of github.com:michaelliao/learngit
+|\  
+| * f005ed4 (origin/master) set exit=1
+* | 582d922 add author
+* | 8875536 add comment
+|/  
+* d1be385 init hello
+...
+```
+
+这个时候，rebase就派上了用场。我们输入命令`git rebase`
+
+```bash
+$ git rebase
+First, rewinding head to replay your work on top of it...
+Applying: add comment
+Using index info to reconstruct a base tree...
+M	hello.py
+Falling back to patching base and 3-way merge...
+Auto-merging hello.py
+Applying: add author
+Using index info to reconstruct a base tree...
+M	hello.py
+Falling back to patching base and 3-way merge...
+Auto-merging hello.py
+```
+
+再用`git log`看看
+
+```bash
+$ git log --graph --pretty=oneline --abbrev-commit
+* 7e61ed4 (HEAD -> master) add author
+* 3611cfe add comment
+* f005ed4 (origin/master) set exit=1
+* d1be385 init hello
+...
+```
+
+Git把我们本地的提交`3611cfe add comment`和`7e61ed4 add author`“挪动”了位置，放到了`f005ed4 (origin/master) set exit=1`之后，这样，整个提交历史就成了一条直线。rebase操作前后，最终的提交内容是一致的，但是，我们本地的`commit`修改内容已经变化了，它们的修改不再基于`d1be385 init hello`，而是基于`f005ed4 (origin/master) set exit=1`，但最后的提交`7e61ed4`内容是一致的。
+
+这就是rebase操作的特点：把分叉的提交历史“整理”成一条直线，看上去更直观。缺点是本地的分叉提交已经被修改过了
+
+## 标签管理
+
+tag就是一个让人容易记住的有意义的名字，它跟某个commit绑在一起。
+
+发布一个版本时，我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。
+
+Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针（跟分支很像，但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。 
+
+### 创建标签
+
+Git中标签的指令都很简单。
+
+* `git tag <name>`就可以打一个新标签
+* 用命令`git tag`查看所有标签，标签不是按时间顺序列出，而是按字母排序的
+* 标签默认打在最新提交的commit上，但是也可以通过声明`commit id`来打标签，比如`git tag v0.9 f52c633`
+* 可以用`git show <tagname>`查看标签信息
+* 可以创建带有说明的标签，用`-a`指定标签名，`-m`指定说明文字：`git tag -a v0.1 -m "version 0.1 released" 1094adb`
+
+注意：标签总是和某个commit挂钩。如果这个commit既出现在master分支，又出现在dev分支，那么在这两个分支上都可以看到这个标签
+
+### 操作标签
+
+* 如果标签打错了，也可以删除：`git tag -d <tagname>`
+* 创建的标签都存储在本地，因此可以安全的删除，但是如果要将某个标签推送到远程，可以使用指令：`git push origin <tagname>`
+* 或者可以一次性推送全部没有被推送的标签：`git push origin --tags`
+* 如果要删除推送到远程的标签，需要首先删除本地标签，然后再使用指令：`git push origin :refs/tags/v0.9`
