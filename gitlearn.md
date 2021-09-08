@@ -42,13 +42,13 @@
    - `git stash apply stash@{0}`：恢复指定版本的 stash
    - `git cherry-pick <commit>`：将在以前分支上做的修改应用到当前分支，注意只有修改内容
 4. 标签管理
-   * `git tag <tagname>`：用于新建一个标签，默认为`HEAD`，也可以指定一个`commit id`
-   * `git tag -a <tagname> -m "blablabla..."`：可以指定标签信息
-   * `git tag`：可以查看所有标签
-   * `git push origin <tagname>`：可以推送一个本地标签
-   * `git push origin --tags`：可以推送全部未推送过的本地标签
-   * `git tag -d <tagname>`：可以删除一个本地标签
-   * `git push origin :refs/tags/<tagname>`：可以删除一个远程标签
+   - `git tag <tagname>`：用于新建一个标签，默认为`HEAD`，也可以指定一个`commit id`
+   - `git tag -a <tagname> -m "blablabla..."`：可以指定标签信息
+   - `git tag`：可以查看所有标签
+   - `git push origin <tagname>`：可以推送一个本地标签
+   - `git push origin --tags`：可以推送全部未推送过的本地标签
+   - `git tag -d <tagname>`：可以删除一个本地标签
+   - `git push origin :refs/tags/<tagname>`：可以删除一个远程标签
 
 ## 本地 Git 使用
 
@@ -548,10 +548,10 @@ Branch 'dev' set up to track remote branch 'dev' from 'origin'.
 
 ### Rebase 变基
 
-* rebase操作可以把本地未push的分叉提交历史整理成直线；
-* rebase的目的是使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比。
+- rebase 操作可以把本地未 push 的分叉提交历史整理成直线；
+- rebase 的目的是使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比。
 
-举例而言，当前的git历史如下：
+举例而言，当前的 git 历史如下：
 
 ```bash
 $ git log --graph --pretty=oneline --abbrev-commit
@@ -559,31 +559,31 @@ $ git log --graph --pretty=oneline --abbrev-commit
 * 8875536 add comment
 * d1be385 (origin/master) init hello
 *   e5e69f1 Merge branch 'dev'
-|\  
+|\
 | *   57c53ab (origin/dev, dev) fix env conflict
-| |\  
+| |\
 | | * 7a5e5dd add env
 | * | 7bd91f1 add new env
 ···
 ```
 
-注意到Git用`(HEAD -> master)`和`(origin/master)`标识出当前分支的`HEAD`和远程`origin`的位置分别是`582d922 add author`和`d1be385 init hello`，本地分支比远程分支快两个提交。
+注意到 Git 用`(HEAD -> master)`和`(origin/master)`标识出当前分支的`HEAD`和远程`origin`的位置分别是`582d922 add author`和`d1be385 init hello`，本地分支比远程分支快两个提交。
 
-使用`git pull`拉取远程提交并合并之后，现在我们本地分支比远程分支超前3个提交。
+使用`git pull`拉取远程提交并合并之后，现在我们本地分支比远程分支超前 3 个提交。
 
 ```bash
 $ git log --graph --pretty=oneline --abbrev-commit
 *   e0ea545 (HEAD -> master) Merge branch 'master' of github.com:michaelliao/learngit
-|\  
+|\
 | * f005ed4 (origin/master) set exit=1
 * | 582d922 add author
 * | 8875536 add comment
-|/  
+|/
 * d1be385 init hello
 ...
 ```
 
-这个时候，rebase就派上了用场。我们输入命令`git rebase`
+这个时候，rebase 就派上了用场。我们输入命令`git rebase`
 
 ```bash
 $ git rebase
@@ -611,33 +611,33 @@ $ git log --graph --pretty=oneline --abbrev-commit
 ...
 ```
 
-Git把我们本地的提交`3611cfe add comment`和`7e61ed4 add author`“挪动”了位置，放到了`f005ed4 (origin/master) set exit=1`之后，这样，整个提交历史就成了一条直线。rebase操作前后，最终的提交内容是一致的，但是，我们本地的`commit`修改内容已经变化了，它们的修改不再基于`d1be385 init hello`，而是基于`f005ed4 (origin/master) set exit=1`，但最后的提交`7e61ed4`内容是一致的。
+Git 把我们本地的提交`3611cfe add comment`和`7e61ed4 add author`“挪动”了位置，放到了`f005ed4 (origin/master) set exit=1`之后，这样，整个提交历史就成了一条直线。rebase 操作前后，最终的提交内容是一致的，但是，我们本地的`commit`修改内容已经变化了，它们的修改不再基于`d1be385 init hello`，而是基于`f005ed4 (origin/master) set exit=1`，但最后的提交`7e61ed4`内容是一致的。
 
-这就是rebase操作的特点：把分叉的提交历史“整理”成一条直线，看上去更直观。缺点是本地的分叉提交已经被修改过了
+这就是 rebase 操作的特点：把分叉的提交历史“整理”成一条直线，看上去更直观。缺点是本地的分叉提交已经被修改过了
 
 ## 标签管理
 
-tag就是一个让人容易记住的有意义的名字，它跟某个commit绑在一起。
+tag 就是一个让人容易记住的有意义的名字，它跟某个 commit 绑在一起。
 
 发布一个版本时，我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。
 
-Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针（跟分支很像，但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。 
+Git 的标签虽然是版本库的快照，但其实它就是指向某个 commit 的指针（跟分支很像，但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。
 
 ### 创建标签
 
-Git中标签的指令都很简单。
+Git 中标签的指令都很简单。
 
-* `git tag <name>`就可以打一个新标签
-* 用命令`git tag`查看所有标签，标签不是按时间顺序列出，而是按字母排序的
-* 标签默认打在最新提交的commit上，但是也可以通过声明`commit id`来打标签，比如`git tag v0.9 f52c633`
-* 可以用`git show <tagname>`查看标签信息
-* 可以创建带有说明的标签，用`-a`指定标签名，`-m`指定说明文字：`git tag -a v0.1 -m "version 0.1 released" 1094adb`
+- `git tag <name>`就可以打一个新标签
+- 用命令`git tag`查看所有标签，标签不是按时间顺序列出，而是按字母排序的
+- 标签默认打在最新提交的 commit 上，但是也可以通过声明`commit id`来打标签，比如`git tag v0.9 f52c633`
+- 可以用`git show <tagname>`查看标签信息
+- 可以创建带有说明的标签，用`-a`指定标签名，`-m`指定说明文字：`git tag -a v0.1 -m "version 0.1 released" 1094adb`
 
-注意：标签总是和某个commit挂钩。如果这个commit既出现在master分支，又出现在dev分支，那么在这两个分支上都可以看到这个标签
+注意：标签总是和某个 commit 挂钩。如果这个 commit 既出现在 master 分支，又出现在 dev 分支，那么在这两个分支上都可以看到这个标签
 
 ### 操作标签
 
-* 如果标签打错了，也可以删除：`git tag -d <tagname>`
-* 创建的标签都存储在本地，因此可以安全的删除，但是如果要将某个标签推送到远程，可以使用指令：`git push origin <tagname>`
-* 或者可以一次性推送全部没有被推送的标签：`git push origin --tags`
-* 如果要删除推送到远程的标签，需要首先删除本地标签，然后再使用指令：`git push origin :refs/tags/v0.9`
+- 如果标签打错了，也可以删除：`git tag -d <tagname>`
+- 创建的标签都存储在本地，因此可以安全的删除，但是如果要将某个标签推送到远程，可以使用指令：`git push origin <tagname>`
+- 或者可以一次性推送全部没有被推送的标签：`git push origin --tags`
+- 如果要删除推送到远程的标签，需要首先删除本地标签，然后再使用指令：`git push origin :refs/tags/v0.9`

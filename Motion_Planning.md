@@ -311,16 +311,115 @@ the lattice graph can be build in four step:
 
 ### Optimal Boundary Value Problem
 
+BVP: Boundary Value Problem
 
+![](./Pictures/2021-08-24%2014-15-25屏幕截图.png)
 
-### Kinodynamic RRT\*
+this is a basic BVP, but it has many solution, which is the best?
+
+OBVP: Optimal Boundary Value Problem
+
+![](./Pictures/2021-08-24%2014-19-26屏幕截图.png)
 
 ### Hybrid A\*
 
+Reveiw
+
+- Online generate a dense lattice costs too much time
+- Each path generate form sime state might get together easily
+- grid map search is not kinodynamic for a robot
+
+So here is **hybrid A\***:Integral by using sampling in control space, but only keep one state in each grid.
+
+![basic idea](./Pictures/2021-08-24%2014-23-51屏幕截图.png)
+
+Heuristic design
+
+- 2D-Euclidean distance: direct but not tight **(a)**
+- non-holonomic-without-obstacles: better in empty environment **(b)**, bad performance in dead ends **(c)**
+- non-holonomic-without-obstacles + holonomic-with-obstacles **(d)** (for example: max in both or give wight)
+
+![](./Pictures/2021-08-24%2014-43-50屏幕截图.png)
+
+Other tricks:
+
+- One shot heuristic: add a state-driven bias towards the searching process.
+
+![](./Pictures/2021-08-24%2014-45-38屏幕截图.png)
+
+### Kinodynamic RRT\*
+
+Find neighbors with the OBVP.
+
+Choose the effective neighbors by minimize the control cost.
+
 ## 5. Minimum snap trajectory generation
+
+Smooth trajectory is better than planning path.
+
+### Differential Flatness
+
+The states and the inputs of a quadrotor can be written as algebraic functions of four carefully selected flat outputs and their derivatives.
 
 ### Minimum snap Optimization
 
+| Derivative | Translation  |       Rotation       |       Thrust        |
+| :--------: | :----------: | :------------------: | :-----------------: |
+|     0      |   Position   |                      |                     |
+|     1      |   Velocity   |                      |                     |
+|     2      | Acceleration |       Rotation       |                     |
+|     3      |     Jerk     |   Angular Velocity   |       Thrust        |
+|     4      |     Snap     | Angular Acceleration | Differential thrust |
+
+- Minimum jerk: minimum angular velocity, good for visual tracking
+- Minimum snap: mimimum differential thurst, save energy
+
+**For the minimum snap (jerk) trajectory generation**
+![](Pictures/2021-08-24%2020-09-47屏幕截图.png)
+
+- Each segment is a polynomial
+- No need to fix order, but keep the same order to make problem sampler
+- Time durations for each segment must be known
+
+**For the traj order**
+
+- Ensure smoothness at an order
+- Ensure continuity at an order
+- Minimize control input at an order
+
+This three items are not coupled
+
+Generally:
+
+- Minimum jerk: N = 2\*3(jerk)-1 = 5
+- Minimum snap: N = 2\*4(snap)-1 = 7
+
+Start point and end point can provide more boundary conditions.
+More segments of trajectory, less boundary conditions the middle point need to provide.
+
+**Different timeline**
+
+- One common timeline, mathematical clear, but hard to evaluate
+- Many relative timeline, numerial stable
+
+**Disciplined convex optimization programs**
+
+* LP: Linear programmming
+* QP: Quadratic programming
+* QCQP: Quadratically constrained QP
+* SOCP: Second-order cone programming
+* SDP: Semidefinite programmming
+
 ### Closed-form solution of minimum snap
 
+
+
 ### Implementation details
+
+1. Convex Solvers
+   - [CVX](http://cvxr.com/cvx/): MATLAB warpper. Let you write down the convex problem like mathematical equations, then call other solvers to solve the problem.
+   - [Mosek](https://www.mosek.com/): Very robust convex solvers, can solve almost all kinds of convex programs. Can apply free academic license. Only library available (x86).
+   - [OOQP](http://pages.cs.wisc.edu/~swright/ooqp/): Very fast, robust QP solver. Open sourced.
+   - [GLPK](https://www.gnu.org/software/glpk): Very fast, robust LP solver. Open sourced.
+2. Numerical Stability
+
