@@ -16,37 +16,30 @@
 
 - 包括 package.xml 与 Cmakelists.txt
 
-- `$catkin_create_pkg <package_name> [depend1] [depend2] ...`
+- 创建package：`$catkin_create_pkg <package_name> [depend1] [depend2] ...`
 
   如：`$catkin_create_pkg test_pkg roscpp rospy std_msgs`
 
-- `rospack help`
+- 常用package命令行指令：
 
-- `rospack list`：列出所有 package，需要有 source
+  - `rospack help`
+  - `rospack list`：列出所有 package，需要有 source
+  - `rospack depends [package]`：显示 package 的依赖包
+  - `rospack find [package]`：定位某个 package
+  - `rospack prifile`：刷新所有 package 的位置记录
+  - `roscd [package]`：cd 到 package 的所在路径
+  - `rosls [package]`：列出 package 下的文件
 
-- `rospack depends [package]`：显示 package 的依赖包
+- `rosdep` 是一个能够下载并安装ROS packages所需要的系统依赖项的小工具
 
-- `rospack find [package]`：定位某个 package
+  - `rosdep check [package]`：检查 package 的依赖是否满足
+  - `rosdep install [package]`：安装 package 的依赖项
+  - `rosdep db`：生成和显示依赖的数据库
+  - `rsodep init`：初始化/etc/ros/rosdep 中的源
+  - `rosdep keys [package]`：列出 package 所需要的所有公钥
+  - `rosdep update`：更新本地的 rosdep 数据库
+  - `rosdep install --from-paths src --ignore-src --rosdistro=kinetic -y`，用于安装工作空间中 src 路径下所有 package 的依赖项（由 pacakge.xml 文件指定）
 
-- `rospack prifile`：刷新所有 package 的位置记录
-
-- `roscd [package]`：cd 到 package 的所在路径
-
-- `rosls [package]`：列出 package 下的文件
-
-- `rosdep check [package]`：检查 package 的依赖是否满足
-
-- `rosdep install [package]`：安装 package 的依赖项
-
-- `rosdep db`：生成和显示依赖的数据库
-
-- `rsodep init`：初始化/etc/ros/rosdep 中的源
-
-- `rosdep keys [package]`：列出 package 所需要的所有公钥
-
-- `rosdep update`：更新本地的 rosdep 数据库
-
-- `rosdep install --from-paths src --ignore-src --rosdistro=kinetic -y`，用于安装工作空间中 src 路径下所有 package 的依赖项（由 pacakge.xml 文件指定）
 
 ## 一、通信架构
 
@@ -59,14 +52,39 @@
 ### Node
 
 - ROS 进程，pkg 中的可执行文件运行的实例
-- `$rosrun [pkg_name] [node_name]`
-- `$rosnode list`
-- `$rosnode info [node_name]`
-- `$rosnode kill [node_name]`
-- `$rosnode ping`
-- `$rosnode cleanup`：清除不可到达的节点的注册信息
 
-### Launch 文件
+- 常用node的命令行指令：
+
+  - `$rosrun [pkg_name] [node_name]`
+  - `$rosnode list`
+  - `$rosnode info [node_name]`
+  - `$rosnode kill [node_name]`
+  - `$rosnode ping`
+  - `$rosnode cleanup`：清除不可到达的节点的注册信息
+
+- 如何构建节点（C++）
+
+  - 比如以下代码：
+
+    ```cmake
+    add_library( minsnapCloseform
+      include/min_snap/min_snap_closeform.h
+      src/min_snap_closeform.cpp
+    ) # class
+    target_link_libraries(minsnapCloseform ${catkin_LIBRARIES})
+    
+    add_dependencies(listener beginner_tutorials_generate_messages_cpp)
+    
+    add_executable(min_snap_generator src/min_snap_generator.cpp)
+    target_link_libraries(min_snap_generator minsnapCloseform ${catkin_LIBRARIES})
+    ```
+
+  - 其中`add_dependences()是将可执行目标添加依赖项`。
+
+  - 在新版中，还可以使用`target_link_libraries()`来依赖所有必须的目标。
+
+
+### Launch
 
 - 一次性启动多个 Node
 
@@ -92,33 +110,82 @@
 
 - ROS 中的异步通信，采用 publish 和 subscribe 通信，类似与公告板
 - 一个 Topic 可以有多个 Subscriber，可以有多个 Publisher 发布同一个 Topic
-- `$rostopic list`
-- `$rostopic info /topic_name`
-- `$rostopic echo /topic_name`：显示某个 Topic 的内容
-- `$rostopic pub /topic_name …`
-- `rostopic hz topic_nale`
-- `$rostopic type /topic_name`：显示某个 Topic 的类型
+- 常用topic命令行指令
+  - `$rostopic list`
+  - `$rostopic info /topic_name`
+  - `$rostopic echo /topic_name`：显示某个 Topic 的内容
+  - `$rostopic pub -1 /topic_name …`
+  - `rostopic hz topic_nale`
+  - `$rostopic type /topic_name`：显示某个 Topic 的类型
+
 
 ### Message
 
 - Topic 内容的数据类型定义在.msg 中，是 Class，是 Struct
+
 - `$rosmsg list`
+
 - `$rosmsg show /msg_name`
+
 - 常用 msg 合集，请见下文
+
+- 创建Message的方法：
+
+  - 在`package.xml`中，应该具有以下两行内容：
+
+    ```html
+    <build_depend>message_generation</build_depend>
+    <exec_depend>message_runtime</exec_depend>
+    ```
+
+    注意，在构建时，其实只需要`message_generation`，而在运行时，我们只需要`message_runtime`。
+
+  - 在`CMakeLists.txt`中
+
+    - 需要将`message_generation`添加到`find_package`的`COMPONENTS`列表中
+    - 还需要确保导出消息的运行时依赖关系：`catkin_package(... CATKIN_DEPENDS message_runtime ...)`。
+    - 最后取消注释：`add_message_files(FILES message.msg)`，添加自己的message文件名
+
+  - 你可能注意到了，有时即使没有使用全部依赖项调用find_package，项目也可以构建。这是因为catkin把你所有的项目整合在了一起，因此如果之前的项目调用了find_package，你的依赖关系也被配置成了一样的值。但是，忘记调用意味着你的项目在单独构建时很容易崩溃。
+
 
 ### Service
 
 - 同步通信方式，通过 request 和 reply 方式通信，多对一，类似与服务器和用户
+
 - 一个是 Server，一个是 Client，C 发送请求之后会等待 S 回复，之后才会继续
+
 - 可以理解为从其他 Node 调用函数
+
 - 通信**格式**为.srv
+
+- srv文件包含两个部分，请求和响应，这两部分用一条线`---`隔开
+
 - srv 只能嵌套 msg，不能嵌套 srv
-- 需要修改 package.xml 和 CMakeList.txt
-- `$rosservice list`
-- `$rosservice info service_name`
-- `$rosservice call service_name args`：args 为传入参数
-- `$rossrv list`
-- `$rossrv show srv_name`
+
+- 常用命令行指令：
+
+  - `$rosservice list`
+  - `$rosservice info service_name`
+  - `$rosservice call service_name args`：args 为传入参数
+  - `$rossrv list`
+  - `$rossrv show srv_name`
+
+- 创建srv的方法：
+
+  - 在`package.xml`中应该有如下两行内容：
+
+    ```html
+    <build_depend>message_generation</build_depend>
+    <exec_depend>message_runtime</exec_depend>
+    ```
+
+    如前所述，在构建时，其实只需要`message_generation`，而在运行时，我们只需要`message_runtime`。
+
+  - 同样要在`CMakeList.txt`里面增加`message_generation`
+
+  - 同样要取消注释：`add_service_files(FILES service.srv)`，添加自己的service文件名
+
 
 ### Parameter Server
 
@@ -157,11 +224,19 @@
 ### rosbag
 
 - 将 Topic 数据记录到.bag 中，可以回放
-- `$rosbag record topic_names`：记录某些 Topic 到 bag 中
+- `$rosbag record -0 bagname topic_names`：记录某些 Topic 到 指定名称的bag 中
 - `$rosbag record -a`：记录所有 Topic 到 bag 中
 - `$rosbag play bag_file`：回放 bag
+  - `$rosbag play -r rate <bagefile>`：按照倍速进行播放
 
-## 常用 msg 结构合集
+
+### roswtf
+
+* `roswtf`可以检查你的系统中某个包并尝试发现问题，这适用于没有开启roscore的情况
+* 当`roscore`开启之后，`roswtf`可以检查一些ros图的在线检查和运行时的检查，检查时间长短取决于正在运行的ROs节点数量
+* `roswtf`会对一些系统中看起来异常但可能是正常的运行情况发出警告。也会对确实有问题的情况报告错误。
+
+## 三、常用 msg 结构合集
 
 本小节主要介绍常见的 message 类型，包括 std_msgs, sensor_msgs, nav_msgs,geometry_msgs 等
 

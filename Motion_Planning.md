@@ -412,7 +412,7 @@ More segments of trajectory, less boundary conditions the middle point need to p
 
 ### Closed-form solution of minimum snap
 
-
+To be continued...
 
 ### Implementation details
 
@@ -422,4 +422,58 @@ More segments of trajectory, less boundary conditions the middle point need to p
    - [OOQP](http://pages.cs.wisc.edu/~swright/ooqp/): Very fast, robust QP solver. Open sourced.
    - [GLPK](https://www.gnu.org/software/glpk): Very fast, robust LP solver. Open sourced.
 2. Numerical Stability
+
+### How to use OOQP
+
+OOQP  教程的第二章讲述了如何计算一般的QP问题：
+
+![](Pictures/2021-11-20%2010-21-05屏幕截图.png)
+
+在src/QpGen中包含了上图所示的格式的优化问题算法
+
+从 C++ 代码调用 OOQP 时，用户必须创建多个对象并依次调用多个方法。 该过程比简单地调用一个 C 函数更复杂，但也更灵活。 通过改变所创建对象的类别，可以为各种类型的 QP 生成定制的求解器。 在本节中，我们关注 上图公式 的默认求解器。 这种情况下的完整调用序列如下图所示。在本节的其余部分，我们将依次解释此序列中的每个调用。
+
+```C++
+QpGenSparseMa27 * qp = new QpGenSparseMa27( nx, my, mz, nnzQ, nnzA, nnzC );
+
+QpGenData * prob = (QpGenData * ) qp->makeData( /* parameters here */);
+QpGenVars * vars = (QpGenVars *) qp->makeVariables( prob );
+QpGenResiduals * resid = (QpGenResiduals *) qp->makeResiduals( prob );
+
+GondzioSolver * s = new GondzioSolver( qp, prob );
+
+s->monitorSelf();
+int status = s->solve(prob,vars, resid);
+```
+
+第一行调用了一个名为`QpGenSparseMa27`的类来初始化qp问题，该类为一个`ProblemFormulation`的子类。此类的定义决定了问题数据的存储方式、问题变量的存储和操作方式以及线性系统的求解方式。
+
+第二行中，在第一行调用创建的对象 qp 中的 makeData 方法创建包含问题数据的向量和矩阵。 实际上，qp 包含了不同版本的 makeData 方法，可以通过它们不同的参数列表来区分。 矩阵数据为行主元 Harwell-Boeing 稀疏格式的用户可以使用此调用的以下形式。
+```c++
+QpGenData * prob
+  = (QpGenData * ) qp->makeData(  c,      krowQ,  jcolQ,  dQ,
+                                  xlow,   ixlow,  xupp,   ixupp,
+                                  krowA,  jcolA,  dA,     bA,
+                                  krowC,  jcolC,  dC,
+                                  clow,   iclow,  cupp,   icupp);
+```
+
+## 6 Soft and Hard constrained trajectory optimization
+
+* hard constraints: constraints required to be strictly satisfied
+* soft constraints: constraints which are preferred but not strictly required
+  * L2 loss, L1 loss, Huber loss, Barrier fuction
+
+### Hard-constrained Optimization
+#### Corridor-based Trajectory Optimization
+* Online generation of collision0free trajectories for quadrotor flight in unknown cluttered environments, Jing Chen et al.
+  * 八叉树建图
+  * 膨胀栅格变为飞行走廊
+  * 生成多项式轨迹
+  * 没有waypoints约束，改为安全性约束
+
+### Soft-constrained Optimization
+
+
+### Case study
 
