@@ -205,8 +205,6 @@ Configuration Space
   - Change sampling methods, let point sampled in the empty area
   - KD-Tree: a effective date structure to search the nearest point
 
-  ![image-20200717095523798](./Pictures/image-20200717095523798.png)
-
   - Bidirectional RRT / RRT Connect
     - grow a tree from both the start point and the goal point
     - path finding when two trees are connected
