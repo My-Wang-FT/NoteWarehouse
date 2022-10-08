@@ -258,3 +258,5 @@ int main()
 - [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
 
 - [ROS](https://marketplace.visualstudio.com/items?itemName=ms-iot.vscode-ros)
+
+- [Latex Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop&ssr=false#overview)：[Help WIKI](https://github.com/James-Yu/LaTeX-Workshop/wiki/Compile#building-the-document)
