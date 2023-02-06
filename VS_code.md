@@ -243,7 +243,7 @@ int main()
   - `CTRL+H`：滚动 Git Graph View 以使其以 HEAD 引用的提交为中心。
   - `CTRL+R`：刷新 Git 图表视图。
   - `CTRL+S`：将 Git Graph View 滚动到加载的提交中的第一个（或下一个）存储。
-  - `CTRL+SHIFT+S`：将 Git Graph View 滚动到加载的提交中的最后一个（或上一个）存储。
+  - `CTRL+SHIFT+S`：将 Git Graph View 滚动到加载的提交中的最后一个（或上一个）存储。 
 
   当在提交时打开提交详细信息视图时：
 
