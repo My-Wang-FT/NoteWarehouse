@@ -6,44 +6,9 @@
 timedatectl set-local-rtc true
 ```
 
-## 常用国内源
-
-对原来文件进行备份：
-
+## fishros
 ```bash
-sudo cp /etc/apt/sources.list /etc/apt/sources.list.old
-```
-
-gedit 复制新的源文件
-
-阿里云源
-
-```bash
-deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
-```
-
-中科大源
-
-```bash
-deb https://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse
-deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse
-deb https://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
-deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
-deb https://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
-deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
-deb https://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse
-deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse
-deb https://mirrors.ustc.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
-deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
+wget http://fishros.com/install -O fishros && . fishros
 ```
 
 ## 中文输入法
@@ -85,12 +50,30 @@ git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-~/.
 
 再将~/.zshrc 中的`plugins=(git)`改为`plugins=(git zsh-syntax-highlighting zsh-autosuggestions)`, 最后运行`source ~/.zshrc`
 
+禁用更新需要增加 `DISABLE_AUTO_UPDATE=“true”`
+
 最后，如果需要使用 ros，同一般 bash 一样，需要在配置文件中增加一句话：
 
 ```bash
 vim ~/.zshrc
 source /opt/ros/noetic/setup.zsh
 ```
+
+powerlevel10k主题配置
+
+```bash
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+或者
+```bash
+git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+
+编辑~/.zshrc：`ZSH_THEME="powerlevel10k/powerlevel10k"`即可
+
+再次打开新终端或者source ~/.zshrc即可进入配置页面，或者`p10k configure`
+
+个人比较喜欢安装推荐的字体，然后配置界面中选择unicode.
 
 ## terminator 样式配置
 
